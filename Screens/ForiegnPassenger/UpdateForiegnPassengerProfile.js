@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -7,13 +7,11 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import moment from "moment";
 
-export default function UpdateForiegnPassengerProfile({ navigation }) {
-  useEffect(() => {
-    if (!!!route.prams) {
-    }
-  }, []);
-
+export default function UpdateForiegnPassengerProfile({ route, navigation }) {
   const [profile, setItems] = useState({});
 
   const [firstName, setfirstName] = useState("");
@@ -23,23 +21,35 @@ export default function UpdateForiegnPassengerProfile({ navigation }) {
   const [passportNo, setpassportNo] = useState("");
   const [userExpDate, setuserExpDate] = useState("");
 
-  useEffect(() => {
-    axios
-      .get(
-        `https://hostingbackend.herokuapp.com/api/passenger/getUserById/${route.params.userId}`
-      )
+  const getUser = async () => {
+    const Token = await AsyncStorage.getItem("token");
+    await axios
+      .get(`https://csse-hosting-app.herokuapp.com/api/user/profile`, {
+        headers: {
+          Authorization: Token,
+        },
+      })
       .then((res) => {
-        setfirstName(res.data.firstName);
-        setlastName(res.data.lastName);
-        setemail(res.data.email);
-        setcountry(res.data.country);
-        setpassportNo(res.data.passportNo);
-        setuserExpDate(res.data.userExpDate);
+        if (res.data.status) {
+          console.log(res.data.user);
+          setfirstName(res.data.user.firstName);
+          setlastName(res.data.user.lastName);
+          setemail(res.data.user.email);
+          setcountry(res.data.user.country);
+          setpassportNo(res.data.user.passportNo);
+          setuserExpDate(res.data.user.userExpDate);
+        } else {
+          console.log(res.data.message);
+        }
       })
       .catch((e) => {
         console.error(e);
       });
-    console.log(route.params.userId);
+  };
+  useEffect(() => {
+    if (!!!route.prams) {
+    }
+    getUser();
   }, []);
 
   const updateForiegner = () => {
@@ -169,7 +179,7 @@ export default function UpdateForiegnPassengerProfile({ navigation }) {
         <TextInput
           keyboardType=" Expire Date"
           style={styles.textView}
-          value={userExpDate}
+          value={moment(userExpDate).format("YYYY-MM-DD")}
           onChange={(e) => setuserExpDate(e.nativeEvent.text)}
           placeholder="    Expire Date"
         />

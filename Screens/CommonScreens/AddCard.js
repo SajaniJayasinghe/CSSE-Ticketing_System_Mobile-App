@@ -16,12 +16,12 @@ export default function AddCard({ navigation }) {
   const [expiryDate, setExpiryDate] = useState("");
   const [amount, setAmount] = useState("");
 
-  const config = {
-    headers: {
-      Authorization: localStorage.getItem("Authorization"),
-      "content-type": "application/json",
-    },
-  };
+  // const config = {
+  //   headers: {
+  //     Authorization: localStorage.getItem("Authorization"),
+  //     "content-type": "application/json",
+  //   },
+  // };
 
   const addCard = () => {
     const URL = `https://hostingbackend.herokuapp.com/api/card/addCard`;
@@ -35,7 +35,7 @@ export default function AddCard({ navigation }) {
     };
 
     axios
-      .post(URL, payload, config)
+      .post(URL, payload)
       .then((res) => {
         Alert.alert("Done", "Card Added Successfull");
         navigation.navigate("Dashboard");

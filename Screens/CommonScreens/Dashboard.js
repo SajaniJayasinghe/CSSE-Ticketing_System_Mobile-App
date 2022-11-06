@@ -42,10 +42,7 @@ const Dashboard = ({ route, navigation }) => {
           <TouchableOpacity
             style={[styles.containerx, styles.ButtonDark]}
             onPress={() =>
-              navigation.navigate("MyJourney", {
-                userId: route.params.userId,
-                role: route.params.role,
-              })
+              navigation.navigate("AllTravelHistory")
             }
           >
             <Text style={styles.loginText}>My Journey</Text>

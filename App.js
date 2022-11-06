@@ -14,6 +14,8 @@ import Login from "./Screens/CommonScreens/Login";
 import Dashboard from "./Screens/CommonScreens/Dashboard";
 import GetAllUser from "./Screens/Inspector/GetAllUser";
 import AddCard from "./Screens/CommonScreens/AddCard";
+import MyQr from "./Screens/ForiegnPassenger/MyQr";
+import AllTravelHistory from "./Screens/ForiegnPassenger/AllTravelHistory";
 
 import RegisterScreen from "./Screens/CommonScreens/RegisterScreen";
 
@@ -34,6 +36,11 @@ export default function App() {
           component={UpdateLocalPassengerProfile}
         />
 
+        <Stack.Screen
+          name="MyQr"
+          component={MyQr}
+        />
+
         <Stack.Screen name="AllBusRoutes" component={AllBusDetails} />
         <Stack.Screen
           name="ForiegnPassengerUpdate"
@@ -42,6 +49,10 @@ export default function App() {
         <Stack.Screen
           name="ForiegnPassengerProfile"
           component={ForiegnPassengerProfile}
+        />
+        <Stack.Screen
+          name="AllTravelHistory"
+          component={AllTravelHistory}
         />
         <Stack.Screen name="DriverProfile" component={DriverProfile} />
         <Stack.Screen name="DriverUpdate" component={UpdateDriverProfile} />

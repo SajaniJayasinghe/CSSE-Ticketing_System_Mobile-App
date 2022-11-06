@@ -131,7 +131,7 @@ export default function ForiegnPassengerProfile({ route, navigation }) {
 
       <TouchableOpacity
         style={[styles.containerbtn, styles.ButtonDark]}
-        onPress={() => navigation.navigate("ForiegnPassengerQR")}
+        onPress={() => navigation.navigate("MyQr")}
       >
         <Text style={styles.signUpbtn}>My QR Code</Text>
       </TouchableOpacity>

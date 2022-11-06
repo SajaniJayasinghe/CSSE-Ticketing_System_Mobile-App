@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import axios from "axios";
 
@@ -16,16 +17,19 @@ export default function DriverPassengerProfile({ route, navigation }) {
     }
   }, []);
 
-  const [profile, setItems] = useState({});
+  const [profile, setProfile] = useState({});
 
-  const getprofile = () => {
-    axios
-      .get(
-        `https://hostingbackend.herokuapp.com/api/passenger/getUserById/${route.params.userId}`
-      )
+  const getprofile = async () => {
+    var token = await AsyncStorage.getItem("token");
+    await axios
+      .get(`https://csse-hosting-app.herokuapp.com/api/user/profile`, {
+        headers: {
+          Authorization: token,
+        },
+      })
       .then((res) => {
-        console.log(res.data);
-        setItems(res.data);
+        console.log(res.data.status);
+        setProfile(res.data.user);
       })
       .catch((e) => {
         console.error(e);

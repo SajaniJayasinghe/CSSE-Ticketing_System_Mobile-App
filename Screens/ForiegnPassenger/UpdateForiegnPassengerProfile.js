@@ -52,23 +52,27 @@ export default function UpdateForiegnPassengerProfile({ route, navigation }) {
     getUser();
   }, []);
 
-  const updateForiegner = () => {
-    const URL = `https://hostingbackend.herokuapp.com/api/passenger/updateUserById/${route.params.userId}`;
+  const updateUser = async () => {
+    const Token = await AsyncStorage.getItem("token");
+    const URL = `https://csse-hosting-app.herokuapp.com/api/user/updateUser`;
 
     const payload = {
       firstName: firstName,
       lastName: lastName,
       email: email,
-      country: country,
-      passportNo: passportNo,
-      userExpDate: userExpDate,
+      phoneNo: phoneNo,
+      nic: nic,
     };
 
     axios
-      .put(URL, payload)
+      .patch(URL, payload, {
+        headers: {
+          Authorization: Token,
+        },
+      })
       .then((_response) => {
         Alert.alert(
-          "Driver Profile Updated",
+          "Use Profile Updated",
           "Your Profile has updated successfully!!",
           [
             {
@@ -187,7 +191,7 @@ export default function UpdateForiegnPassengerProfile({ route, navigation }) {
 
       <TouchableOpacity
         style={[styles.containerbtn, styles.ButtonDark]}
-        onPress={() => updateForiegner()}
+        onPress={() => updateUser()}
       >
         <Text style={styles.signUpbtn}> Update</Text>
       </TouchableOpacity>

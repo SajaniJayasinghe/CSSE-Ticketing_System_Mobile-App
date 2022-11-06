@@ -9,13 +9,10 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import moment from "moment";
 
 export default function UpdateDriverProfile({ route, navigation }) {
-  useEffect(() => {
-    if (!!!route.prams) {
-    }
-  }, []);
-
   const [profile, setItems] = useState({});
 
   const [firstName, setfirstName] = useState("");
@@ -24,26 +21,39 @@ export default function UpdateDriverProfile({ route, navigation }) {
   const [phoneNo, setphoneNo] = useState("");
   const [nic, setnic] = useState("");
 
-  useEffect(() => {
-    axios
-      .get(
-        `https://hostingbackend.herokuapp.com/api/passenger/getUserById/${route.params.userId}`
-      )
+  const getUser = async () => {
+    const Token = await AsyncStorage.getItem("token");
+    await axios
+      .get(`https://csse-hosting-app.herokuapp.com/api/user/profile`, {
+        headers: {
+          Authorization: Token,
+        },
+      })
       .then((res) => {
-        setfirstName(res.data.firstName);
-        setlastName(res.data.lastName);
-        setemail(res.data.email);
-        setphoneNo(res.data.phoneNo);
-        setnic(res.data.nic);
+        if (res.data.status) {
+          console.log(res.data.user);
+          setfirstName(res.data.user.firstName);
+          setlastName(res.data.user.lastName);
+          setemail(res.data.user.email);
+          setphoneNo(res.data.user.phoneNo);
+          setnic(res.data.user.nic);
+        } else {
+          console.log(res.data.message);
+        }
       })
       .catch((e) => {
         console.error(e);
       });
-    console.log(route.params.userId);
+  };
+  useEffect(() => {
+    if (!!!route.prams) {
+    }
+    getUser();
   }, []);
 
-  const updateDriver = () => {
-    const URL = `https://hostingbackend.herokuapp.com/api/passenger/updateUserById/${route.params.userId}`;
+  const updateUser = async () => {
+    const Token = await AsyncStorage.getItem("token");
+    const URL = `https://csse-hosting-app.herokuapp.com/api/user/updateUser`;
 
     const payload = {
       firstName: firstName,
@@ -54,10 +64,14 @@ export default function UpdateDriverProfile({ route, navigation }) {
     };
 
     axios
-      .put(URL, payload)
+      .patch(URL, payload, {
+        headers: {
+          Authorization: Token,
+        },
+      })
       .then((_response) => {
         Alert.alert(
-          "Driver Profile Updated",
+          "Use Profile Updated",
           "Your Profile has updated successfully!!",
           [
             {
@@ -166,7 +180,7 @@ export default function UpdateDriverProfile({ route, navigation }) {
 
       <TouchableOpacity
         style={[styles.containerbtn, styles.ButtonDark]}
-        onPress={() => updateDriver()}
+        onPress={() => updateUser()}
       >
         <Text style={styles.signUpbtn}> Update</Text>
       </TouchableOpacity>

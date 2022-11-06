@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ForiegnPassengerProfile({ route, navigation }) {
   useEffect(() => {
@@ -17,28 +18,37 @@ export default function ForiegnPassengerProfile({ route, navigation }) {
 
   const [profile, setItems] = useState({});
 
-  const getprofile = () => {
-    axios
-      .get(
-        `https://hostingbackend.herokuapp.com/api/passenger/getUserById/${route.params.userId}`
-      )
+  const getprofile = async () => {
+    const Token = await AsyncStorage.getItem("token");
+    await axios
+      .get(`https://csse-hosting-app.herokuapp.com/api/user/profile`, {
+        headers: {
+          Authorization: Token,
+        },
+      })
       .then((res) => {
         console.log(res.data);
-        setItems(res.data);
+        setItems(res.data.user);
       })
       .catch((e) => {
         console.error(e);
       });
   };
 
-  const deleteProfile = (id) => {
+  const deleteProfile = async () => {
+    var Token = await AsyncStorage.getItem("token");
     Alert.alert("Are you sure?", "This will permanently delete your profile!", [
       {
         text: "OK",
-        onPress: () => {
+        onPress: async () => {
           axios
             .delete(
-              `https://hostingbackend.herokuapp.com/api/passenger/deleteUser/${id}`
+              `https://csse-hosting-app.herokuapp.com/api/user/deleteUser`,
+              {
+                headers: {
+                  Authorization: Token,
+                },
+              }
             )
             .then((res) => {
               navigation.navigate("LoadingPage");
@@ -137,7 +147,7 @@ export default function ForiegnPassengerProfile({ route, navigation }) {
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.containerbtn, styles.ButtonDark]}
-        onPress={() => deleteProfile(profile._id)}
+        onPress={() => deleteProfile()}
       >
         <Text style={styles.signUpbtn}>Delete My Profile</Text>
       </TouchableOpacity>

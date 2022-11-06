@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from "react-native";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 
-function TravelHistory(props) {
+function LTravelHistory(props) {
   return (
     <View style={styles.container}>
       <Text style={styles.smartLineTravels}>SMART LINE TRAVELS</Text>
@@ -305,4 +305,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TravelHistory;
+export default LTravelHistory;

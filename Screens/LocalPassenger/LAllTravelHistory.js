@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 
-function AllTravelHistory({navigation}) {
+function LAllTravelHistory({navigation}) {
   return (
     <View style={styles.container}>
       <Text style={styles.smartLineTravels}>SMART LINE TRAVELS</Text>
@@ -130,4 +130,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AllTravelHistory;
+export default LAllTravelHistory;

@@ -134,6 +134,13 @@ const Dashboard = ({ route, navigation }) => {
 
           <TouchableOpacity
             style={[styles.containerx, styles.ButtonDark]}
+            onPress={() => navigation.navigate("BusProfile")}
+          >
+            <Text style={styles.loginText}>Bus Profile</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.containerx, styles.ButtonDark]}
             onPress={() =>
               navigation.navigate("GetAllUser", {
                 userId: route.params.userId,

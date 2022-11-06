@@ -339,8 +339,6 @@ export default function DriverQRScanner() {
           </View>
         </View>
       )}
-
-    
     </View>
   );
 }
@@ -390,7 +388,7 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: "#8A8AFF",
     borderRadius: 10,
-    color:"white",
+    color: "white",
     alignItems: "center",
   },
   buttonOutliner: {

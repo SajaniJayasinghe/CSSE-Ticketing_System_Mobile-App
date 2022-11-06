@@ -9,6 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function UpdateLocalPassengerProfile({ route, navigation }) {
   useEffect(() => {
@@ -16,34 +17,41 @@ export default function UpdateLocalPassengerProfile({ route, navigation }) {
     }
   }, []);
 
-  const [profile, setItems] = useState({});
-
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState("");
   const [email, setemail] = useState("");
   const [phoneNo, setphoneNo] = useState("");
   const [nic, setnic] = useState("");
 
-  useEffect(() => {
-    axios
-      .get(
-        `https://hostingbackend.herokuapp.com/api/passenger/getUserById/${route.params.userId}`
-      )
+  const getUser = async () => {
+    var token = await AsyncStorage.getItem("token");
+    console.log(token);
+    await axios
+      .get(`https://csse-hosting-app.herokuapp.com/api/user/profile`, {
+        headers: {
+          Authorization: token,
+        },
+      })
       .then((res) => {
-        setfirstName(res.data.firstName);
-        setlastName(res.data.lastName);
-        setemail(res.data.email);
-        setphoneNo(res.data.phoneNo);
-        setnic(res.data.nic);
+        if (res.data.status) {
+          setfirstName(res.data.user.firstName);
+          setlastName(res.data.user.lastName);
+          setemail(res.data.user.email);
+          setphoneNo(res.data.user.phoneNo);
+          setnic(res.data.user.nic);
+        }
       })
       .catch((e) => {
         console.error(e);
       });
-    console.log(route.params.userId);
+  };
+  useEffect(() => {
+    getUser();
   }, []);
 
-  const updateUser = () => {
-    const URL = `https://hostingbackend.herokuapp.com/api/passenger/updateUserById/${route.params.userId}`;
+  const updateUser = async () => {
+    const Token = await AsyncStorage.getItem("token");
+    const URL = `https://csse-hosting-app.herokuapp.com/api/user/updateUser`;
 
     const payload = {
       firstName: firstName,
@@ -54,7 +62,11 @@ export default function UpdateLocalPassengerProfile({ route, navigation }) {
     };
 
     axios
-      .put(URL, payload)
+      .patch(URL, payload, {
+        headers: {
+          Authorization: Token,
+        },
+      })
       .then((_response) => {
         Alert.alert(
           "Use Profile Updated",

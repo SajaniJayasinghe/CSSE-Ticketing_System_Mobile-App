@@ -9,21 +9,30 @@ import {
   TouchableOpacity,
 } from "react-native";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
 
-  const loginUser = () => {
-    const URL = "https://hostingbackend.herokuapp.com/api/passenger/signin";
-    axios
+  const storetoken = async (value) => {
+    await AsyncStorage.setItem("token", value);
+  };
+
+  const loginUser = async () => {
+    const URL = "https://csse-hosting-app.herokuapp.com/api/user/userLogin";
+    await axios
       .post(URL, { email: email, password: pwd })
       .then((res) => {
-        console.log(res.data.userId);
-        navigation.navigate("Dashboard", {
-          userId: res.data.userId,
-          role: res.data.role,
-        });
+        console.log(res.data);
+        if (res.data.status) {
+          AsyncStorage.clear();
+          storetoken(res.data.token);
+          navigation.navigate("Dashboard", {
+            userId: res.data.userId,
+            role: res.data.role,
+          });
+        }
       })
       .catch((error) => {
         Alert.alert("Login Unsuccessful", [{ text: "Check Again" }], {

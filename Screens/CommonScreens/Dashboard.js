@@ -24,8 +24,7 @@ const Dashboard = ({ route, navigation }) => {
           uri: "https://res.cloudinary.com/nibmsa/image/upload/v1667311443/Screenshot_2022-11-01_at_19.32.42-removebg-preview_lbhdzz.png",
         }}
       />
-      {route.params.role.toLocaleLowerCase().replace(/\s/g, "") ===
-        "foriegncustomer" && (
+      {route.params.role === "ForeignPassenger" && (
         <>
           <TouchableOpacity
             style={[styles.containerx, styles.ButtonDark]}
@@ -41,9 +40,7 @@ const Dashboard = ({ route, navigation }) => {
 
           <TouchableOpacity
             style={[styles.containerx, styles.ButtonDark]}
-            onPress={() =>
-              navigation.navigate("AllTravelHistory")
-            }
+            onPress={() => navigation.navigate("AllTravelHistory")}
           >
             <Text style={styles.loginText}>My Journey</Text>
           </TouchableOpacity>
@@ -74,8 +71,7 @@ const Dashboard = ({ route, navigation }) => {
         </>
       )}
 
-      {route.params.role.toLocaleLowerCase().replace(/\s/g, "") ===
-        "localcustomer" && (
+      {route.params.role === "LocalPassenger" && (
         <>
           <TouchableOpacity
             style={[styles.containerx, styles.ButtonDark]}
@@ -127,8 +123,7 @@ const Dashboard = ({ route, navigation }) => {
         </>
       )}
 
-      {route.params.role.toLocaleLowerCase().replace(/\s/g, "") ===
-        "inspector" && (
+      {route.params.role === "Inspector" && (
         <>
           <TouchableOpacity
             style={[styles.containerx, styles.ButtonDark]}

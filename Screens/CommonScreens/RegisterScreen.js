@@ -24,13 +24,51 @@ const RegisterScreen = ({ navigation }) => {
   const [country, setcountry] = useState("");
   const [passportNo, setpassportNo] = useState("");
   const [userExpDate, setuserExpDate] = useState("");
-  const [role, setrole] = useState("");
+  const [role, setrole] = useState("LocalPassenger");
   const [value, setValue] = useState(null);
 
   const data = [
-    { label: "foriegncustomer", value: "foriegncustomer" },
-    { label: "localcustomer", value: "localcustomer" },
+    { label: "Foriegn Customer", value: "ForeignPassenger" },
+    { label: "Local Customer", value: "LocalPassenger" },
   ];
+
+  const onSignup = async () => {
+    if (password == cpassword) {
+      const payload = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phoneNo: phoneNo,
+        nic: nic,
+        password: password,
+        country: country,
+        passportNo: passportNo,
+        userExpDate: userExpDate,
+        role: role,
+      };
+
+      await axios
+        .post(
+          "https://csse-hosting-app.herokuapp.com/api/user/userRegister",
+          payload
+        )
+        .then((res) => {
+          if (res.data.status) {
+            Alert.alert("Success", "User Registered Successfully");
+            setTimeout(() => {
+              navigation.push("Login");
+            }, 2000);
+          } else {
+            Alert.alert("Error", "User Registration Failed");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      Alert.alert("Error", "Password and Confirm Password should be same");
+    }
+  };
 
   const renderItem = (item) => {
     return (
@@ -46,39 +84,6 @@ const RegisterScreen = ({ navigation }) => {
         )}
       </View>
     );
-  };
-
-  const registerUser = () => {
-    const URL = "https://hostingbackend.herokuapp.com/api/passenger/signupuser";
-
-    const payload = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      phoneNo: phoneNo,
-      nic: nic,
-      password: password,
-      country: country,
-      passportNo: passportNo,
-      userExpDate: userExpDate,
-      role: role,
-    };
-
-    axios
-      .post(URL, payload)
-      .then((res) => {
-        Alert.alert("Registeration Successfull");
-        navigation.navigate("Dashboard");
-      })
-      .catch((error) => {
-        console.log(error);
-        Alert.alert(
-          "Error",
-          "Registration Unsuccessful",
-          [{ text: "Check Again" }],
-          { cancelable: false }
-        );
-      });
   };
 
   return (
@@ -158,26 +163,31 @@ const RegisterScreen = ({ navigation }) => {
           style={styles.textInput}
         ></TextInput>
 
-        <TextInput
-          onChange={(e) => setcountry(e.nativeEvent.text)}
-          value={country}
-          placeholder="Country"
-          style={styles.textInput}
-        ></TextInput>
+        {role === "ForeignPassenger" ? (
+          <View>
+            <TextInput
+              onChange={(e) => setcountry(e.nativeEvent.text)}
+              value={country}
+              placeholder="Country"
+              style={styles.textInput}
+            ></TextInput>
 
-        <TextInput
-          onChange={(e) => setpassportNo(e.nativeEvent.text)}
-          value={passportNo}
-          placeholder="Passport Number"
-          style={styles.textInput}
-        ></TextInput>
-
-        <TextInput
-          onChange={(e) => setuserExpDate(e.nativeEvent.text)}
-          value={userExpDate}
-          placeholder="Expire Date"
-          style={styles.textInput}
-        ></TextInput>
+            <TextInput
+              onChange={(e) => setpassportNo(e.nativeEvent.text)}
+              value={passportNo}
+              placeholder="Passport Number"
+              style={styles.textInput}
+            ></TextInput>
+            <TextInput
+              onChange={(e) => setuserExpDate(e.nativeEvent.text)}
+              value={userExpDate}
+              placeholder="Expire Date"
+              style={styles.textInput}
+            ></TextInput>
+          </View>
+        ) : (
+          ""
+        )}
 
         {/* <TextInput
           onChange={(e) => setrole(e.nativeEvent.text)}
@@ -204,9 +214,7 @@ const RegisterScreen = ({ navigation }) => {
 
         <TouchableOpacity
           style={[styles.containerbtn, styles.ButtonDark]}
-          onPress={() => {
-            registerUser();
-          }}
+          onPress={onSignup}
         >
           <Text style={styles.signUpbtn}>Sign Up</Text>
         </TouchableOpacity>

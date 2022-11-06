@@ -8,39 +8,54 @@ import {
   TouchableOpacity,
 } from "react-native";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LocalPassengerProfile({ route, navigation }) {
+  const [token, settoken] = useState("");
+
+  const getToken = async () => {
+    settoken(await AsyncStorage.getItem("token"));
+  };
   useEffect(() => {
+    getToken();
     if (!!!route.prams) {
     }
   }, []);
 
   const [profile, setProfile] = useState({});
-
-  const getprofile = () => {
-    axios
-      .get(
-        `https://hostingbackend.herokuapp.com/api/passenger/getUserById/${route.params.userId}`
-      )
+  const getprofile = async () => {
+    await axios
+      .get(`https://csse-hosting-app.herokuapp.com/api/user/profile`, {
+        headers: {
+          Authorization: token,
+        },
+      })
       .then((res) => {
-        console.log(res.data);
-        setProfile(res.data);
+        console.log(res.data.status);
+        setProfile(res.data.user);
       })
       .catch((e) => {
         console.error(e);
       });
   };
-  const deleteProfile = (id) => {
+
+  const deleteProfile = async (id) => {
     Alert.alert("Are you sure?", "This will permanently delete your profile!", [
       {
         text: "OK",
-        onPress: () => {
+        onPress: async () => {
+          const Token = await AsyncStorage.getItem("token");
           axios
             .delete(
-              `https://hostingbackend.herokuapp.com/api/passenger/deleteUser/${id}`
+              `https://csse-hosting-app.herokuapp.com/api/user/deleteUser`,
+              {
+                headers: {
+                  Authorization: Token,
+                },
+              }
             )
             .then((res) => {
-              navigation.navigate("LoadingPage");
+              navigation.push("LoadingPage");
               getprofile();
             })
             .catch((e) => {
@@ -51,6 +66,7 @@ export default function LocalPassengerProfile({ route, navigation }) {
     ]);
   };
 
+  console.log(profile);
   useEffect(() => {
     getprofile();
   }, []);
@@ -128,7 +144,7 @@ export default function LocalPassengerProfile({ route, navigation }) {
       <TouchableOpacity
         style={[styles.containerbtn, styles.ButtonDark]}
         onPress={() =>
-          navigation.navigate("DriverUpdate", {
+          navigation.navigate("UpdateLocalPassenger", {
             userId: route.params.userId,
             role: route.params.role,
             userId: profile._id,

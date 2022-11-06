@@ -35,9 +35,7 @@ export default function Login({ navigation }) {
         }
       })
       .catch((error) => {
-        Alert.alert("Login Unsuccessful", [{ text: "Check Again" }], {
-          cancelable: false,
-        });
+        Alert.alert("Loging Faild");
       });
   };
 

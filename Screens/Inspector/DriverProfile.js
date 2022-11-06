@@ -73,7 +73,7 @@ export default function DriverPassengerProfile({ route, navigation }) {
           marginBottom: 200,
           fontSize: 28,
           fontWeight: "bold",
-          fontFamily: "Times New Roman",
+          //fontFamily: "Times New Roman",
         }}
       >
         SMART LINE TRAVELS

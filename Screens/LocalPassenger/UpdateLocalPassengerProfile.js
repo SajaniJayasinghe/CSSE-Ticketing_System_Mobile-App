@@ -110,7 +110,7 @@ export default function UpdateLocalPassengerProfile({ route, navigation }) {
           marginTop: 5,
           fontSize: 28,
           fontWeight: "bold",
-          fontFamily: "Times New Roman",
+          //fontFamily: "Times New Roman",
         }}
       >
         SMART LINE TRAVELS
@@ -124,7 +124,7 @@ export default function UpdateLocalPassengerProfile({ route, navigation }) {
           marginBottom: 30,
           marginLeft: 10,
           fontWeight: "bold",
-          fontFamily: "Times New Roman",
+          //fontFamily: "Times New Roman",
         }}
       >
         Update Your Profile

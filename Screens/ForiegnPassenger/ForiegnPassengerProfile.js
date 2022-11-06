@@ -71,7 +71,7 @@ export default function ForiegnPassengerProfile({ route, navigation }) {
           marginTop: 5,
           fontSize: 28,
           fontWeight: "bold",
-          fontFamily: "Times New Roman",
+          //fontFamily: "Times New Roman",
         }}
       >
         SMART LINE TRAVELS
@@ -85,7 +85,7 @@ export default function ForiegnPassengerProfile({ route, navigation }) {
           marginLeft: 10,
           fontWeight: "bold",
           marginBottom: 30,
-          fontFamily: "Times New Roman",
+          //fontFamily: "Times New Roman",
         }}
       >
         Your Profile

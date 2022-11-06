@@ -123,7 +123,7 @@ const Dashboard = ({ route, navigation }) => {
         </>
       )}
 
-      {route.params.role === "Inspector" && (
+      {route.params.role === "Driver" && (
         <>
           <TouchableOpacity
             style={[styles.containerx, styles.ButtonDark]}

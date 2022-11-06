@@ -17,7 +17,7 @@ const LoadingScreen = ({ navigation }) => {
           marginTop: 30,
           fontSize: 28,
           fontWeight: "bold",
-          fontFamily: "Times New Roman",
+          //fontFamily: "Times New Roman",
         }}
       >
         WELCOME TO
@@ -29,7 +29,7 @@ const LoadingScreen = ({ navigation }) => {
           marginTop: 10,
           fontSize: 28,
           fontWeight: "bold",
-          fontFamily: "Times New Roman",
+          //fontFamily: "Times New Roman",
         }}
       >
         SMART LINE TRAVELS

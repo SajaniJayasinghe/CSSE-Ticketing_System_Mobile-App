@@ -86,7 +86,7 @@ export default function LocalPassengerProfile({ route, navigation }) {
           marginTop: -3,
           fontSize: 28,
           fontWeight: "bold",
-          fontFamily: "Times New Roman",
+          //fontFamily: "Times New Roman",
         }}
       >
         SMART LINE TRAVELS
@@ -100,7 +100,7 @@ export default function LocalPassengerProfile({ route, navigation }) {
           marginLeft: 10,
           marginBottom: 5,
           fontWeight: "bold",
-          fontFamily: "Times New Roman",
+          //fontFamily: "Times New Roman",
         }}
       >
         Your Profile
